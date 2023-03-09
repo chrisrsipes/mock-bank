@@ -16,7 +16,8 @@ public class Transaction {
     @GeneratedValue
     private Long id;
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private TransactionType type;
 
     private Double amount;
 
@@ -30,7 +31,7 @@ public class Transaction {
 
     }
 
-    public Transaction(Long id, String type, Double amount, Instant timestamp, Account account) {
+    public Transaction(Long id, TransactionType type, Double amount, Instant timestamp, Account account) {
         this.id = id;
         this.type = type;
         this.amount = amount;
