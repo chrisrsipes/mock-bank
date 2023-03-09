@@ -16,22 +16,22 @@ public class AccountController {
     }
 
     @GetMapping("/users/{userId}/accounts")
-    public List<Account> findByUserId(@PathVariable Long userId) {
+    public List<Account> findAccountsByUserId(@PathVariable Long userId) {
         return accountService.findByUserId(userId);
     }
 
     @PostMapping("/accounts")
     public Account createAccount(@RequestBody Account account) {
-        return accountService.saveAccount(account);
+        return accountService.save(account);
     }
 
     @PutMapping("/accounts")
     public Account updateAccount(@RequestBody Account account) {
-        return accountService.saveAccount(account);
+        return accountService.save(account);
     }
 
     @DeleteMapping("/accounts/{accountId}")
     public void deleteAccount(@PathVariable Long accountId) {
-        accountService.deleteAccount(accountId);
+        accountService.delete(accountId);
     }
 }
