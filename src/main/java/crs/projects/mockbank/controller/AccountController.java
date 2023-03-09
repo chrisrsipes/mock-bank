@@ -1,6 +1,7 @@
 package crs.projects.mockbank.controller;
 
 import crs.projects.mockbank.dto.AccountDto;
+import crs.projects.mockbank.dto.AccountTransferDto;
 import crs.projects.mockbank.model.Account;
 import crs.projects.mockbank.service.AccountService;
 import org.springframework.web.bind.annotation.*;
@@ -42,5 +43,10 @@ public class AccountController {
     @DeleteMapping("/accounts/{accountId}")
     public void deleteAccount(@PathVariable Long accountId) {
         accountService.delete(accountId);
+    }
+
+    @PostMapping("/accounts/transfer")
+    public void transfer(@RequestBody AccountTransferDto accountTransferDto) {
+        accountService.transfer(accountTransferDto);
     }
 }
