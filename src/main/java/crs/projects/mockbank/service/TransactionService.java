@@ -40,10 +40,29 @@ public class TransactionService {
         if (maybeAccount.isPresent()) {
             Account account = maybeAccount.get();
             Double newBalance;
+
             if (transaction.getType().equals(TransactionType.CREDIT)) {
                 newBalance = account.getBalance() + transaction.getAmount();
             } else {
-                newBalance = account.getBalance() - transaction.getAmount();
+                if (account.getBalance() < transaction.getAmount()) {
+                    if (account.getIsOverdraftAllowed() != null && account.getIsOverdraftAllowed().equals(true) && transaction.getAmount() - account.getBalance() <= account.getOverdraftAmountLimit()) {
+                        newBalance = account.getBalance() - transaction.getAmount() - account.getOverdraftFeeAmount();
+
+                        Transaction overdraftTransaction = Transaction.builder()
+                                .type(TransactionType.DEBIT)
+                                .amount(account.getOverdraftFeeAmount())
+                                .timestamp(Instant.now())
+                                .account(Account.builder().id(account.getId()).build())
+                                .build();
+
+                        transactionRepository.save(overdraftTransaction);
+                    } else {
+                        throw new RuntimeException("Transaction would exceed overdraft limit for the account.");
+                    }
+                } else {
+                    newBalance = account.getBalance() - transaction.getAmount();
+                }
+
             }
 
             account.setBalance(newBalance);

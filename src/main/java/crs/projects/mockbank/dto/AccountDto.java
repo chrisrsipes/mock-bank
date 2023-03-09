@@ -18,6 +18,12 @@ public class AccountDto {
 
     private Boolean isActive;
 
+    private Boolean isOverdraftAllowed;
+
+    private Double overdraftAmountLimit;
+
+    private Double overdraftFeeAmount;
+
     private Long userId;
 
     public Account toEntity() {
@@ -27,6 +33,9 @@ public class AccountDto {
                 .type(this.getType())
                 .balance(this.getBalance())
                 .isActive(this.getIsActive())
+                .isOverdraftAllowed(this.getIsOverdraftAllowed())
+                .overdraftAmountLimit(this.getOverdraftAmountLimit())
+                .overdraftFeeAmount(this.getOverdraftFeeAmount())
                 .userId(this.getUserId())
                 .build();
     }
@@ -37,6 +46,9 @@ public class AccountDto {
                 .type(account.getType())
                 .balance(account.getBalance())
                 .isActive(account.getIsActive())
+                .isOverdraftAllowed(account.getIsOverdraftAllowed())
+                .overdraftAmountLimit(account.getOverdraftAmountLimit())
+                .overdraftFeeAmount(account.getOverdraftFeeAmount())
                 .userId(account.getUserId())
                 .build();
     }
