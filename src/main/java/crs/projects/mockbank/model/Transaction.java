@@ -1,6 +1,7 @@
 package crs.projects.mockbank.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -8,6 +9,7 @@ import java.time.Instant;
 
 @Entity
 @Data
+@Builder
 public class Transaction {
 
     @Id
@@ -23,4 +25,16 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "account.id", nullable = false)
     private Account account;
+
+    public Transaction() {
+
+    }
+
+    public Transaction(Long id, String type, Double amount, Instant timestamp, Account account) {
+        this.id = id;
+        this.type = type;
+        this.amount = amount;
+        this.timestamp = timestamp;
+        this.account = account;
+    }
 }
