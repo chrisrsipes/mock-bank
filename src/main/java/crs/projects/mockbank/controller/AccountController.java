@@ -1,5 +1,6 @@
 package crs.projects.mockbank.controller;
 
+import crs.projects.mockbank.dto.AccountDto;
 import crs.projects.mockbank.model.Account;
 import crs.projects.mockbank.service.AccountService;
 import org.springframework.web.bind.annotation.*;
@@ -16,18 +17,26 @@ public class AccountController {
     }
 
     @GetMapping("/users/{userId}/accounts")
-    public List<Account> findAccountsByUserId(@PathVariable Long userId) {
-        return accountService.findByUserId(userId);
+    public List<AccountDto> findAccountsByUserId(@PathVariable Long userId) {
+        List<Account> accounts = accountService.findByUserId(userId);
+        List<AccountDto> accountDtos = accounts.stream().map(AccountDto::fromEntity).toList();
+        return accountDtos;
     }
 
     @PostMapping("/accounts")
-    public Account createAccount(@RequestBody Account account) {
-        return accountService.save(account);
+    public AccountDto createAccount(@RequestBody AccountDto accountDto) {
+        Account account = accountDto.toEntity();
+        Account savedAccount = accountService.save(account);
+        AccountDto responseAccountDto = AccountDto.fromEntity(savedAccount);
+        return responseAccountDto;
     }
 
     @PutMapping("/accounts")
-    public Account updateAccount(@RequestBody Account account) {
-        return accountService.save(account);
+    public AccountDto updateAccount(@RequestBody AccountDto accountDto) {
+        Account account = accountDto.toEntity();
+        Account savedAccount = accountService.save(account);
+        AccountDto responseAccountDto = AccountDto.fromEntity(savedAccount);
+        return responseAccountDto;
     }
 
     @DeleteMapping("/accounts/{accountId}")
