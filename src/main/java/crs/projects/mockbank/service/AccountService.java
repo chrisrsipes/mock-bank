@@ -4,6 +4,7 @@ import crs.projects.mockbank.model.Account;
 import crs.projects.mockbank.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountService {
@@ -18,7 +19,16 @@ public class AccountService {
         return accountRepository.findAccountsByUserId(userId);
     }
 
-    public Account createAccount(Account account) {
+    public Account saveAccount(Account account) {
         return accountRepository.save(account);
+    }
+
+    public void deleteAccount(Long accountId) {
+        Optional<Account> maybeAccount = accountRepository.findById(accountId);
+
+        // @TODO: do we want to give a 404 if entity could not be deleted?
+        if (maybeAccount.isPresent()) {
+            accountRepository.delete(maybeAccount.get());
+        }
     }
 }

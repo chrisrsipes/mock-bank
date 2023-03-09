@@ -22,6 +22,16 @@ public class AccountController {
 
     @PostMapping("/accounts")
     public Account createAccount(@RequestBody Account account) {
-        return accountService.createAccount(account);
+        return accountService.saveAccount(account);
+    }
+
+    @PutMapping("/accounts")
+    public Account updateAccount(@RequestBody Account account) {
+        return accountService.saveAccount(account);
+    }
+
+    @DeleteMapping("/accounts/{accountId}")
+    public void deleteAccount(@PathVariable Long accountId) {
+        accountService.deleteAccount(accountId);
     }
 }
