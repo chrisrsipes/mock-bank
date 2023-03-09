@@ -15,15 +15,19 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
+    public Optional<Account> findById(Long accountId) {
+        return accountRepository.findById(accountId);
+    }
+
     public List<Account> findByUserId(Long userId) {
         return accountRepository.findAccountsByUserId(userId);
     }
 
-    public Account saveAccount(Account account) {
+    public Account save(Account account) {
         return accountRepository.save(account);
     }
 
-    public void deleteAccount(Long accountId) {
+    public void delete(Long accountId) {
         Optional<Account> maybeAccount = accountRepository.findById(accountId);
 
         // @TODO: do we want to give a 404 if entity could not be deleted?
