@@ -2,6 +2,7 @@ package crs.projects.mockbank.dto;
 
 import crs.projects.mockbank.model.Account;
 import crs.projects.mockbank.model.Transaction;
+import crs.projects.mockbank.model.TransactionType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Builder;
@@ -15,7 +16,7 @@ public class TransactionDto {
 
     private Long id;
 
-    private String type;
+    private TransactionType type;
 
     private Double amount;
 

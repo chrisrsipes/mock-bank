@@ -1,6 +1,7 @@
 package crs.projects.mockbank.dto;
 
 import crs.projects.mockbank.model.Account;
+import crs.projects.mockbank.model.AccountType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,7 +12,7 @@ public class AccountDto {
 
     private String name;
 
-    private String type;
+    private AccountType type;
 
     private Double balance;
 
