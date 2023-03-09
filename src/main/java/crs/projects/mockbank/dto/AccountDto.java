@@ -1,9 +1,11 @@
 package crs.projects.mockbank.dto;
 
 import crs.projects.mockbank.model.Account;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class AccountDto {
     private Long id;
 
@@ -17,27 +19,24 @@ public class AccountDto {
 
     private Long userId;
 
-    public static AccountDto fromEntity(Account account) {
-        AccountDto accountDto = new AccountDto();
-        accountDto.setId(account.getId());
-        accountDto.setName(account.getName());
-        accountDto.setType(account.getType());
-        accountDto.setBalance(account.getBalance());
-        accountDto.setIsActive(account.getIsActive());
-        accountDto.setUserId(account.getUserId());
-
-        return accountDto;
-    }
-
     public Account toEntity() {
-        Account account = new Account();
-        account.setId(this.getId());
-        account.setName(this.getName());
-        account.setType(this.getType());
-        account.setBalance(this.getBalance());
-        account.setIsActive(this.getIsActive());
-        account.setUserId(this.getUserId());
-
-        return account;
+        return Account.builder()
+                .id(this.getId())
+                .name(this.getName())
+                .type(this.getType())
+                .balance(this.getBalance())
+                .isActive(this.getIsActive())
+                .userId(this.getUserId())
+                .build();
+    }
+    public static AccountDto fromEntity(Account account) {
+        return AccountDto.builder()
+                .id(account.getId())
+                .name(account.getName())
+                .type(account.getType())
+                .balance(account.getBalance())
+                .isActive(account.getIsActive())
+                .userId(account.getUserId())
+                .build();
     }
 }

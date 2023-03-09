@@ -7,6 +7,7 @@ import crs.projects.mockbank.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +26,13 @@ public class TransactionService {
     public Transaction create(Transaction transaction) {
         Optional<Account> maybeAccount = accountService.findById(transaction.getAccount().getId());
 
+
         if (transaction.getAmount() < 0) {
             throw new RuntimeException("Negative numbers are not allowed for amount");
+        }
+
+        if (transaction.getTimestamp() == null) {
+            transaction.setTimestamp(Instant.now());
         }
 
         if (maybeAccount.isPresent()) {
