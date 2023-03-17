@@ -6,7 +6,6 @@ import crs.projects.mockbank.model.Account;
 import crs.projects.mockbank.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -36,6 +35,12 @@ public class AccountController {
         Account savedAccount = accountService.save(account);
         AccountDto responseAccountDto = AccountDto.fromEntity(savedAccount);
         return responseAccountDto;
+    }
+
+    @GetMapping("/accounts/{accountId}")
+    public AccountDto findAccount(@PathVariable Long accountId) {
+        Account account = accountService.findById(accountId);
+        return AccountDto.fromEntity(account);
     }
 
     @DeleteMapping("/accounts/{accountId}")
