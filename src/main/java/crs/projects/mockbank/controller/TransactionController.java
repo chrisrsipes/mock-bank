@@ -1,11 +1,8 @@
 package crs.projects.mockbank.controller;
 
 import crs.projects.mockbank.dto.TransactionDto;
-import crs.projects.mockbank.model.Account;
 import crs.projects.mockbank.model.Transaction;
-import crs.projects.mockbank.service.AccountService;
 import crs.projects.mockbank.service.TransactionService;
-import jakarta.transaction.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
