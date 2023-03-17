@@ -61,6 +61,7 @@ public class AccountService {
                         .account(Account.builder().id(accountTransferDto.getFromAccountId()).build())
                         .type(TransactionType.DEBIT)
                         .amount(accountTransferDto.getAmount())
+                        .description(String.format("Transfer to account %s", toAccount.get().getName()))
                         .timestamp(Instant.now())
                         .build();
 
@@ -68,6 +69,7 @@ public class AccountService {
                         .account(Account.builder().id(accountTransferDto.getToAccountId()).build())
                         .type(TransactionType.CREDIT)
                         .amount(accountTransferDto.getAmount())
+                        .description(String.format("Transfer from account %s", toAccount.get().getName()))
                         .timestamp(Instant.now())
                         .build();
 

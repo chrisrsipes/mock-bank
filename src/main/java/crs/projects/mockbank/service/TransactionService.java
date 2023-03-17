@@ -51,11 +51,13 @@ public class TransactionService {
                         Transaction overdraftTransaction = Transaction.builder()
                                 .type(TransactionType.DEBIT)
                                 .amount(account.getOverdraftFeeAmount())
+                                .description("Overdraft for transaction")
                                 .timestamp(Instant.now())
                                 .account(Account.builder().id(account.getId()).build())
                                 .build();
 
                         transactionRepository.save(overdraftTransaction);
+
                     } else {
                         throw new RuntimeException("Transaction would exceed overdraft limit for the account.");
                     }
