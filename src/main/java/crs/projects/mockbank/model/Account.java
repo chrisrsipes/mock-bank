@@ -1,12 +1,16 @@
 package crs.projects.mockbank.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Account {
 
     @Id
@@ -30,19 +34,4 @@ public class Account {
 
     private Long userId;
 
-    public Account() {
-
-    }
-
-    public Account(Long id, String name, AccountType type, Double balance, Boolean isActive, Boolean isOverdraftAllowed, Double overdraftAmountLimit, Double overdraftFeeAmount, Long userId) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.balance = balance;
-        this.isActive = isActive;
-        this.isOverdraftAllowed = isOverdraftAllowed;
-        this.overdraftAmountLimit = overdraftAmountLimit;
-        this.overdraftFeeAmount = overdraftFeeAmount;
-        this.userId = userId;
-    }
 }
