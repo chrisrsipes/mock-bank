@@ -20,6 +20,8 @@ public class TransactionDto {
 
     private Double amount;
 
+    private String description;
+
     private Instant timestamp = Instant.now();
 
     private Long accountId;
@@ -29,6 +31,7 @@ public class TransactionDto {
                 .id(this.getId())
                 .type(this.getType())
                 .amount(this.getAmount())
+                .description(this.getDescription())
                 .timestamp(this.getTimestamp())
                 .account(
                         Account
@@ -44,6 +47,7 @@ public class TransactionDto {
                 .id(transaction.getId())
                 .type(transaction.getType())
                 .amount(transaction.getAmount())
+                .description(transaction.getDescription())
                 .timestamp(transaction.getTimestamp())
                 .accountId(transaction.getAccount().getId())
                 .build();

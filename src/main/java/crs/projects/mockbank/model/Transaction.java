@@ -23,6 +23,8 @@ public class Transaction {
 
     private Double amount;
 
+    private String description;
+
     private Instant timestamp = Instant.now();
 
     @ManyToOne
