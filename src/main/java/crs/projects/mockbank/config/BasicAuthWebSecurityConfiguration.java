@@ -1,50 +1,46 @@
 package crs.projects.mockbank.config;
 
-import crs.projects.mockbank.auth.AppBasicAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class BasicAuthWebSecurityConfiguration {
 
-    private final AppBasicAuthenticationEntryPoint authenticationEntryPoint;
+    private final DataSource datasource;
 
-    public BasicAuthWebSecurityConfiguration(AppBasicAuthenticationEntryPoint authenticationEntryPoint) {
-        this.authenticationEntryPoint = authenticationEntryPoint;
+    public BasicAuthWebSecurityConfiguration(DataSource datasource) {
+        this.datasource = datasource;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .formLogin().disable()
                 .csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/public").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic()
-                .authenticationEntryPoint(authenticationEntryPoint);
+                .cors().and()
+                .authorizeHttpRequests((authz) -> authz
+                        .requestMatchers("/public").permitAll() // permitting these are not currently working
+                        .requestMatchers("/actuator/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user = User
-                .withUsername("user")
-                .password(passwordEncoder().encode("password"))
-                .roles("USER_ROLES")
-                .build();
-
-        return new InMemoryUserDetailsManager(user);
+    public JdbcUserDetailsManager userDetailsService() {
+        return new JdbcUserDetailsManager(datasource);
     }
 
     @Bean
