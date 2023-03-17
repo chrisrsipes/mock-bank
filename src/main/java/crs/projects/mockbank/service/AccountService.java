@@ -1,84 +1,18 @@
 package crs.projects.mockbank.service;
 
 import crs.projects.mockbank.dto.AccountTransferDto;
-import crs.projects.mockbank.error.EntityNotFoundException;
 import crs.projects.mockbank.model.Account;
-import crs.projects.mockbank.model.Transaction;
-import crs.projects.mockbank.model.TransactionType;
-import crs.projects.mockbank.repository.AccountRepository;
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import java.time.Instant;
 import java.util.List;
-import java.util.Objects;
 
-@Service
-@RequiredArgsConstructor
-public class AccountService {
+public interface AccountService {
 
-    private final AccountRepository accountRepository;
-    private final TransactionService transactionService;
+    Account findById(Long accountId);
 
-    public Account findById(Long accountId) {
-        return accountRepository.findById(accountId).orElseThrow(EntityNotFoundException::new);
-    }
+    List<Account> findByUserId(Long userId);
 
-    public List<Account> findByUserId(Long userId) {
-        return accountRepository.findAccountsByUserId(userId);
-    }
+    Account save(Account account);
 
-    public Account save(Account account) {
-        return accountRepository.save(account);
-    }
+    void delete(Long accountId);
 
-    public void delete(Long accountId) {
-        Account account = accountRepository.findById(accountId).orElseThrow(EntityNotFoundException::new);
-        accountRepository.delete(account);
-    }
-
-    @Transactional
-    public void transfer(AccountTransferDto accountTransferDto) {
-        List<Account> userAccounts = accountRepository.findAccountsByUserId(accountTransferDto.getUserId());
-        Account fromAccount = userAccounts
-                .stream()
-                .filter(account -> Objects.equals(account.getId(), accountTransferDto.getFromAccountId()))
-                .findFirst()
-                .orElseThrow(EntityNotFoundException::new);
-
-        Account toAccount = userAccounts
-                .stream()
-                .filter(account -> Objects.equals(account.getId(), accountTransferDto.getToAccountId()))
-                .findFirst()
-                .orElseThrow(EntityNotFoundException::new);
-
-        if (accountTransferDto.getFromAccountId().equals(accountTransferDto.getToAccountId())) {
-            throw new RuntimeException("Can not transfer money to same account it's being transferred from.");
-        }
-
-        if (fromAccount.getBalance() >= accountTransferDto.getAmount()) {
-            Transaction fromTransaction = Transaction.builder()
-                    .account(Account.builder().id(accountTransferDto.getFromAccountId()).build())
-                    .type(TransactionType.DEBIT)
-                    .amount(accountTransferDto.getAmount())
-                    .description(String.format("Transfer to account %s", toAccount.getName()))
-                    .timestamp(Instant.now())
-                    .build();
-
-            Transaction toTransaction = Transaction.builder()
-                    .account(Account.builder().id(accountTransferDto.getToAccountId()).build())
-                    .type(TransactionType.CREDIT)
-                    .amount(accountTransferDto.getAmount())
-                    .description(String.format("Transfer from account %s", toAccount.getName()))
-                    .timestamp(Instant.now())
-                    .build();
-
-
-            transactionService.create(fromTransaction);
-            transactionService.create(toTransaction);
-        } else {
-            throw new RuntimeException("Insufficient funds ");
-        }
-
-    }
+    void transfer(AccountTransferDto accountTransferDto);
 }

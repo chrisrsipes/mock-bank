@@ -1,5 +1,6 @@
-package crs.projects.mockbank.config;
+package crs.projects.mockbank.service.impl;
 
+import crs.projects.mockbank.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtService {
+public class JwtServiceImpl implements JwtService {
 
     // @TODO: don't hard code this
     private static final String SECRET_KEY = "6D5A7134743777217A25432646294A404E635266556A586E3272357538782F41";
