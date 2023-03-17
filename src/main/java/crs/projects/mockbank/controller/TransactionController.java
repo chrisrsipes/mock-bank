@@ -3,18 +3,16 @@ package crs.projects.mockbank.controller;
 import crs.projects.mockbank.dto.TransactionDto;
 import crs.projects.mockbank.model.Transaction;
 import crs.projects.mockbank.service.TransactionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class TransactionController {
 
-    private TransactionService transactionService;
-
-    public TransactionController(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
+    private final TransactionService transactionService;
 
     @GetMapping("/accounts/{accountId}/transactions")
     public List<TransactionDto> findTransactionsByAccountId(@PathVariable Long accountId) {

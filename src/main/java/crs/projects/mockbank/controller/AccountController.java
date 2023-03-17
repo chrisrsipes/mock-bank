@@ -4,18 +4,16 @@ import crs.projects.mockbank.dto.AccountDto;
 import crs.projects.mockbank.dto.AccountTransferDto;
 import crs.projects.mockbank.model.Account;
 import crs.projects.mockbank.service.AccountService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class AccountController {
 
     private final AccountService accountService;
-
-    public AccountController(AccountService accountService) {
-        this.accountService = accountService;
-    }
 
     @GetMapping("/users/{userId}/accounts")
     public List<AccountDto> findAccountsByUserId(@PathVariable Long userId) {

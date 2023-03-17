@@ -1,5 +1,6 @@
-package crs.projects.mockbank.config;
+package crs.projects.mockbank.filter;
 
+import crs.projects.mockbank.config.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

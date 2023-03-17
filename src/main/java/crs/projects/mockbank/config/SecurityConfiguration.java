@@ -1,6 +1,7 @@
 package crs.projects.mockbank.config;
 
-import crs.projects.mockbank.repository.UserRepository;
+import crs.projects.mockbank.filter.JwtAuthenticationFilter;
+import crs.projects.mockbank.filter.RequestResponseLoggingFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +13,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.sql.DataSource;
-
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -22,6 +21,8 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     private final AuthenticationProvider authenticationProvider;
+
+    private final RequestResponseLoggingFilter requestResponseLoggingFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -42,6 +43,7 @@ public class SecurityConfiguration {
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(requestResponseLoggingFilter, JwtAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
