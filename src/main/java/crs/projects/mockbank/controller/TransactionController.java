@@ -5,7 +5,6 @@ import crs.projects.mockbank.model.Transaction;
 import crs.projects.mockbank.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
