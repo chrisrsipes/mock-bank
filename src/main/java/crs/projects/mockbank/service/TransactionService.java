@@ -7,6 +7,7 @@ import crs.projects.mockbank.model.TransactionType;
 import crs.projects.mockbank.repository.AccountRepository;
 import crs.projects.mockbank.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -14,15 +15,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TransactionService {
 
-    private TransactionRepository transactionRepository;
-    private AccountRepository accountRepository;
-
-    public TransactionService(TransactionRepository transactionRepository, AccountRepository accountRepository) {
-        this.transactionRepository = transactionRepository;
-        this.accountRepository = accountRepository;
-    }
+    private final TransactionRepository transactionRepository;
+    private final AccountRepository accountRepository;
 
     @Transactional
     public Transaction create(Transaction transaction) {

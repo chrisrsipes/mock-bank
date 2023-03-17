@@ -6,6 +6,7 @@ import crs.projects.mockbank.model.Transaction;
 import crs.projects.mockbank.model.TransactionType;
 import crs.projects.mockbank.repository.AccountRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -14,15 +15,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AccountService {
 
     private final AccountRepository accountRepository;
     private final TransactionService transactionService;
-
-    public AccountService(AccountRepository accountRepository, TransactionService transactionService) {
-        this.accountRepository = accountRepository;
-        this.transactionService = transactionService;
-    }
 
     public Optional<Account> findById(Long accountId) {
         return accountRepository.findById(accountId);
